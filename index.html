@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yash Computer | Chhattisgarh's Ultimate Tech & Repair Destination</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-hover: rgba(30, 41, 59, 0.5);
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
+            --border-color: #334155;
+            --glass-bg: rgba(15, 23, 42, 0.85);
+            --modal-bg: #1e293b;
+            --nav-link-bg: rgba(30, 41, 59, 0.6);
+            --nav-link-hover: rgba(6, 182, 212, 0.15);
+        }
+
+        /* Light Mode Overrides */
+        body.light-mode {
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-card-hover: rgba(255, 255, 255, 0.8);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border-color: #e2e8f0;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --modal-bg: #f1f5f9;
+            --nav-link-bg: rgba(226, 232, 240, 0.8);
+            --nav-link-hover: rgba(6, 182, 212, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Prevent scroll during preloader */
+        body.loading { overflow: hidden; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-body); }
+        ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 4px; }
+
+        /* General Dynamic Classes */
+        .dyn-bg { background-color: var(--bg-body) !important; transition: background-color 0.3s; }
+        .dyn-card { background-color: var(--bg-card) !important; border-color: var(--border-color) !important; transition: all 0.3s; }
+        .dyn-text { color: var(--text-main) !important; transition: color 0.3s; }
+        .dyn-text-muted { color: var(--text-muted) !important; transition: color 0.3s; }
+        .dyn-border { border-color: var(--border-color) !important; }
+        
+        .glass-nav {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #06b6d4, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+        @keyframes pulse-glow { 0% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(6, 182, 212, 0); } 100% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0); } }
+
+        .floating-element { animation: float 6s ease-in-out infinite; }
+        .btn-glow { transition: all 0.3s ease; }
+        .btn-glow:hover { animation: pulse-glow 1.5s infinite; transform: scale(1.05); }
+
+        /* Specific Light Mode adjustments for hardcoded tailwind classes */
+        .light-mode .bg-slate-950 { background-color: #f1f5f9 !important; }
+        .light-mode .bg-slate-900 { background-color: #f8fafc !important; }
+        .light-mode .bg-slate-800 { background-color: #ffffff !important; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .light-mode .text-white { color: #0f172a !important; }
+        .light-mode .text-gray-400 { color: #64748b !important; }
+        .light-mode .text-gray-500 { color: #475569 !important; }
+        .light-mode .border-slate-700 { border-color: #e2e8f0 !important; }
+        .light-mode .border-slate-800 { border-color: #cbd5e1 !important; }
+        .light-mode .modal-content { background-color: #ffffff !important; border-color: #e2e8f0 !important; }
+        .light-mode .bg-pattern { background-image: radial-gradient(rgba(6, 182, 212, 0.2) 1px, transparent 1px); }
+
+        /* Card Hover */
+        .card-hover { transition: all 0.4s ease; border: 1px solid var(--border-color); background: var(--bg-card); }
+        .card-hover:hover { transform: translateY(-5px); border-color: #06b6d4 !important; box-shadow: 0 10px 30px -10px rgba(6, 182, 212, 0.3); z-index: 10; }
+
+        /* Preloader */
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #06b6d4; } }
+        .typing-text { overflow: hidden; white-space: nowrap; border-right: .15em solid #06b6d4; margin: 0 auto; animation: typing 1.5s steps(20, end), blink-caret .75s step-end infinite; }
+
+        /* Scroll Reveal */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-40px); transition: all 0.6s ease-out; }
+        .reveal-left.active { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(40px); transition: all 0.6s ease-out; }
+        .reveal-right.active { opacity: 1; transform: translateX(0); }
+
+        .bg-pattern { background-image: radial-gradient(rgba(6, 182, 212, 0.08) 1px, transparent 1px); background-size: 30px 30px; }
+
+        /* Modals & Toasts */
+        .modal-overlay { opacity: 0; visibility: hidden; transition: all 0.3s ease-in-out; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { transform: scale(0.9); transition: all 0.3s ease-in-out; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+
+        #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+        .toast { background: linear-gradient(to right, #06b6d4, #3b82f6); color: white; padding: 12px 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transform: translateX(120%); transition: transform 0.3s ease; font-weight: 500; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+        .toast.show { transform: translateX(0); }
+
+        /* Side by Side Slider */
+        .horizontal-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding-bottom: 20px; gap: 1.5rem; }
+        .horizontal-slider::-webkit-scrollbar { height: 6px; }
+        .slider-item { scroll-snap-align: start; min-width: 280px; max-width: 280px; flex-shrink: 0; }
+        
+        /* Floating Fav Button - Shrunk & Cleaned Up */
+        .fab-fav { 
+            position: fixed; 
+            bottom: 30px; 
+            left: 30px; 
+            z-index: 90; 
+            width: 48px; 
+            height: 48px; 
+            border-radius: 50%; 
+            background: linear-gradient(135deg, #ef4444, #b91c1c); 
+            color: white; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4); 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+        }
+        .fab-fav:hover { transform: scale(1.1); }
+        
+        /* Shrunk badge & fixed text centering with standard flex alignment */
+        .fab-badge { 
+            position: absolute; 
+            top: -2px; 
+            right: -2px; 
+            background: #ffffff; 
+            color: #ef4444; 
+            font-size: 10px; 
+            font-weight: bold; 
+            width: 18px; 
+            height: 18px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25); 
+            line-height: 1;
+        }
+        
+        /* Heart icon animation */
+        .heart-btn { transition: transform 0.2s; cursor: pointer; }
+        .heart-btn:active { transform: scale(0.8); }
+        .heart-active { color: #ef4444 !important; }
+
+        /* Boxed Navigation Cards Styles */
+        .nav-box-item {
+            background-color: var(--nav-link-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 8px 18px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-box-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(59, 130, 246, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .nav-box-item:hover {
+            color: #06b6d4 !important;
+            border-color: #06b6d4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.15);
+            background-color: var(--nav-link-hover);
+        }
+        .nav-box-item:hover::before {
+            opacity: 1;
+        }
+
+        /* Active styling for boxed nav elements */
+        .nav-box-item.active-nav {
+            border-color: #06b6d4;
+            background-color: var(--nav-link-hover);
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+            color: #06b6d4 !important;
+        }
+    </style>
+</head>
+<body class="antialiased loading dyn-bg">
+
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-[9999] dyn-bg flex flex-col items-center justify-center transition-all duration-1000">
+        <div class="relative flex flex-col items-center">
+            <div class="absolute w-40 h-40 bg-cyan-500 rounded-full mix-blend-screen filter blur-[50px] opacity-40 animate-pulse"></div>
+            <div class="w-32 h-32 rounded-3xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white font-bold text-6xl shadow-[0_0_50px_rgba(6,182,212,0.6)] mb-8 relative z-10 transform hover:scale-110 transition-transform duration-500">
+                YC
+            </div>
+            <div class="inline-block">
+                <h1 class="text-4xl md:text-5xl font-bold dyn-text tracking-widest typing-text">Yash Computer</h1>
+            </div>
+            <p class="text-cyan-400 mt-4 tracking-widest uppercase text-sm animate-pulse" data-i18n="loading_text">Loading Your Tech Hub...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-40 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <!-- Logo -->
+                <a href="#home" class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-cyan-500/30">YC</div>
+                    <span class="font-bold text-2xl tracking-wider dyn-text">Yash <span class="text-cyan-400">Computer</span></span>
+                </a>
+                
+                <!-- Desktop Boxed Menu (Home, About, etc. in Hover-enabled Boxes) -->
+                <div class="hidden lg:flex space-x-4 items-center">
+                    <a href="#home" class="nav-box-item active-nav dyn-text-muted font-semibold text-sm transition-all" data-i18n="nav_home">Home</a>
+                    <a href="#about" class="nav-box-item dyn-text-muted font-semibold text-sm transition-all" data-i18n="nav_about">About</a>
+                    <a href="#products" class="nav-box-item dyn-text-muted font-semibold text-sm transition-all" data-i18n="nav_products">Products</a>
+                    <a href="#category-slider" class="nav-box-item dyn-text-muted font-semibold text-sm transition-all" data-i18n="nav_explore">Explore</a>
+                    <a href="#services" class="nav-box-item dyn-text-muted font-semibold text-sm transition-all" data-i18n="nav_services">Services</a>
+                    <a href="#contact" class="bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-2.5 rounded-xl font-bold text-white hover:shadow-lg transition-all transform hover:scale-105 text-sm" data-i18n="nav_contact">Contact Us</a>
+                    
+                    <!-- Controls: Lang & Theme -->
+                    <div class="flex items-center gap-3 border-l border-slate-700 pl-4 ml-2">
+                        <button onclick="toggleLanguage()" class="w-9 h-9 rounded-xl dyn-card border flex items-center justify-center dyn-text-muted hover:text-cyan-400 tooltip relative group" title="Change Language">
+                            <i class="fas fa-language text-lg"></i>
+                            <span class="absolute -bottom-8 bg-slate-800 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">EN/HI</span>
+                        </button>
+                        <button onclick="toggleTheme()" class="w-9 h-9 rounded-xl dyn-card border flex items-center justify-center dyn-text-muted hover:text-cyan-400 tooltip relative group" id="theme-toggle-btn" title="Toggle Theme">
+                            <i class="fas fa-sun text-lg" id="theme-icon"></i>
+                            <span class="absolute -bottom-8 bg-slate-800 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Theme</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="lg:hidden flex items-center gap-4">
+                    <button onclick="toggleTheme()" class="dyn-text-muted"><i class="fas fa-sun" id="theme-icon-mob"></i></button>
+                    <button onclick="toggleLanguage()" class="dyn-text-muted"><i class="fas fa-language"></i></button>
+                    <button id="mobile-menu-btn" class="dyn-text-muted focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden dyn-card absolute w-full shadow-xl">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium dyn-text hover:text-cyan-400" data-i18n="nav_home">Home</a>
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium dyn-text hover:text-cyan-400" data-i18n="nav_about">About</a>
+                <a href="#products" class="block px-3 py-2 rounded-md text-base font-medium dyn-text hover:text-cyan-400" data-i18n="nav_products">Products</a>
+                <a href="#services" class="block px-3 py-2 rounded-md text-base font-medium dyn-text hover:text-cyan-400" data-i18n="nav_services">Services</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium dyn-text hover:text-cyan-400" data-i18n="nav_contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden bg-pattern">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-40"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-40"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Text Content -->
+                <div class="reveal-left text-center md:text-left mt-10 md:mt-0">
+                    <span class="inline-block py-1.5 px-4 rounded-full dyn-card dyn-border text-cyan-500 text-xs font-bold mb-6 shadow-sm" data-i18n="hero_badge">
+                        <i class="fas fa-certificate mr-1"></i> Chhattisgarh's Most Trusted Computer Hub Since 2010
+                    </span>
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 dyn-text" data-i18n="hero_title">
+                        Your Ultimate <br> 
+                        <span class="text-gradient">Tech & Repair Hub</span>
+                    </h1>
+                    <p class="dyn-text-muted text-lg md:text-xl mb-8 max-w-lg mx-auto md:mx-0" data-i18n="hero_desc">
+                        Professional IT solutions, high-grade laptops, custom rigs, and trusted hardware repairs. Serving Durg-Bhilai with excellence and transparent prices.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start mb-12">
+                        <a href="#products" class="btn-glow bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-3.5 rounded-full font-bold text-lg flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20" data-i18n="btn_shop">
+                            <i class="fas fa-shopping-bag"></i> Shop Products
+                        </a>
+                        <a href="#contact" class="px-8 py-3.5 rounded-full font-bold text-lg border border-slate-600 hover:border-cyan-400 dyn-text transition-all flex items-center justify-center gap-2" data-i18n="btn_contact">
+                            <i class="fas fa-phone-alt"></i> Contact Us
+                        </a>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-4 border-t border-slate-700/50 pt-6">
+                        <div><h4 class="text-3xl font-extrabold text-cyan-400 mb-1">5,000+</h4><p class="text-xs dyn-text-muted uppercase tracking-wider" data-i18n="stat_customers">Happy Customers</p></div>
+                        <div><h4 class="text-3xl font-extrabold text-cyan-400 mb-1">15+</h4><p class="text-xs dyn-text-muted uppercase tracking-wider" data-i18n="stat_exp">Years Experience</p></div>
+                        <div><h4 class="text-3xl font-extrabold text-cyan-400 mb-1">2,000+</h4><p class="text-xs dyn-text-muted uppercase tracking-wider" data-i18n="stat_prod">Products Repaired</p></div>
+                    </div>
+                </div>
+
+                <!-- Graphic/Image -->
+                <div class="reveal-right flex justify-center mt-10 md:mt-0">
+                    <div class="relative w-full max-w-md floating-element">
+                        <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto drop-shadow-[0_0_30px_rgba(6,182,212,0.3)]">
+                            <defs>
+                                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M 210 320 L 290 320 L 310 370 L 190 370 Z" fill="#64748b"/>
+                            <rect x="235" y="270" width="30" height="50" fill="#94a3b8"/>
+                            <rect x="50" y="80" width="400" height="200" rx="10" fill="#1e293b" stroke="#475569" stroke-width="6"/>
+                            <rect x="60" y="90" width="380" height="180" rx="5" fill="#0f172a"/>
+                            <rect x="80" y="110" width="150" height="15" rx="5" fill="url(#grad1)"/>
+                            <rect x="80" y="140" width="200" height="10" rx="5" fill="#334155"/>
+                            <rect x="80" y="160" width="180" height="10" rx="5" fill="#334155"/>
+                            <circle cx="340" cy="180" r="40" fill="none" stroke="url(#grad1)" stroke-width="8" stroke-dasharray="100 50" transform="rotate(45 340 180)"/>
+                            <circle cx="340" cy="180" r="20" fill="url(#grad1)"/>
+                            <path d="M 100 380 L 400 380 L 420 400 L 80 400 Z" fill="#64748b"/>
+                            <rect x="120" y="385" width="260" height="10" rx="2" fill="url(#grad1)" opacity="0.8"/>
+                        </svg>
+                        <div class="absolute -top-4 -right-4 dyn-card p-3 rounded-xl shadow-lg animate-pulse"><i class="fas fa-microchip text-cyan-400 text-2xl"></i></div>
+                        <div class="absolute bottom-10 -left-8 dyn-card p-3 rounded-xl shadow-lg" style="animation: float 4s infinite;"><i class="fas fa-gamepad text-blue-500 text-2xl"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-24 relative bg-slate-900 border-y border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal-left relative space-y-6">
+                    <div class="absolute inset-0 bg-cyan-500 rounded-3xl transform rotate-3 scale-105 opacity-20 blur-sm"></div>
+                    <div class="relative rounded-3xl overflow-hidden border-2 border-slate-700 shadow-2xl bg-slate-900 aspect-video flex items-center justify-center">
+                        <img src="https://placehold.co/800x600/0f172a/06b6d4?text=Yash+Computer+Store" alt="Yash Computer Storefront" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80"></div>
+                        <div class="absolute bottom-6 left-6 flex items-center gap-4">
+                            <div class="w-14 h-14 bg-cyan-600 rounded-full flex items-center justify-center text-white text-xl shadow-lg border-2 border-white/20"><i class="fas fa-store"></i></div>
+                            <div>
+                                <h4 class="text-white font-bold text-xl drop-shadow-md" data-i18n="loc_title">Located in Durg, Bhilai</h4>
+                                <p class="text-cyan-300 text-sm font-medium drop-shadow-md" data-i18n="loc_desc">Serving CG since 2010</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Business Hours Box with Icon -->
+                    <div class="dyn-card p-6 rounded-2xl border-2 dyn-border shadow-xl relative overflow-hidden">
+                        <div class="absolute right-0 top-0 w-24 h-24 bg-cyan-500/5 rounded-full -mr-6 -mt-6"></div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-500 flex-shrink-0">
+                                <i class="far fa-clock text-2xl"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <h4 class="font-bold text-lg dyn-text flex items-center gap-2 mb-2">
+                                    <span data-i18n="hours_title">Business Hours</span> 
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-green-500/20 text-green-400">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-1 animate-pulse"></span> Open Now
+                                    </span>
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm dyn-text-muted">
+                                    <div class="flex justify-between sm:justify-start gap-3">
+                                        <span class="font-bold text-cyan-500" data-i18n="days_week">Mon - Sat:</span>
+                                        <span>10:00 AM - 08:30 PM</span>
+                                    </div>
+                                    <div class="flex justify-between sm:justify-start gap-3">
+                                        <span class="font-bold text-red-500" data-i18n="day_sunday">Sunday:</span>
+                                        <span data-i18n="sunday_status">Closed (Support Available)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal-right">
+                    <h2 class="text-cyan-400 font-semibold tracking-wide uppercase text-sm mb-2" data-i18n="about_tag">Our Premium Story</h2>
+                    <h3 class="text-3xl md:text-5xl font-bold mb-6 dyn-text" data-i18n="about_title">About <span class="text-gradient">Yash Computer</span></h3>
+                    <div class="space-y-4 dyn-text-muted text-base sm:text-lg mb-8 leading-relaxed">
+                        <p data-i18n="about_p1">Established in <strong>2010</strong>, Yash Computer has grown from a local diagnostics repair desk to Chhattisgarh’s premier tech supply and hardware maintenance ecosystem. Over 15 years, we have raised the standards of technology distribution.</p>
+                        <p data-i18n="about_p2">Our motto is: <strong>"Genuine Spares, Expert Diagnostics, Fair Pricing."</strong> We deal with all top brands, offering laptop repair, chip-level logic board recovery, custom workstation construction, and enterprise network setups.</p>
+                    </div>
+
+                    <!-- Added Value Pillars -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex gap-3">
+                            <i class="fas fa-check-circle text-cyan-500 text-lg mt-1"></i>
+                            <div>
+                                <h5 class="font-bold dyn-text text-sm" data-i18n="pillar_1_t">Genuine Spares Only</h5>
+                                <p class="text-xs dyn-text-muted" data-i18n="pillar_1_d">100% manufacturer warranty verification.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3">
+                            <i class="fas fa-check-circle text-cyan-500 text-lg mt-1"></i>
+                            <div>
+                                <h5 class="font-bold dyn-text text-sm" data-i18n="pillar_2_t">Certified Specialists</h5>
+                                <p class="text-xs dyn-text-muted" data-i18n="pillar_2_d">Experienced chip-level motherboard experts.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section with Full Categories Filter System -->
+    <section id="products" class="py-24 relative bg-slate-800 border-b border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10 reveal">
+                <h3 class="text-4xl md:text-5xl font-bold mb-4 dyn-text"><span class="text-gradient" data-i18n="prod_title">Our Products</span></h3>
+                <p class="dyn-text-muted text-lg" data-i18n="prod_sub">Top quality computers & accessories with comprehensive filters</p>
+                <div class="w-20 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Product Category Interactive Filter Bar -->
+            <div class="flex flex-wrap justify-center gap-2 mb-12 reveal">
+                <button onclick="setProductFilter('All')" class="filter-btn px-5 py-2.5 rounded-xl text-sm font-semibold border-2 border-slate-700 hover:border-cyan-500/50 bg-slate-900/40 text-gray-400 hover:text-white transition-all active-filter shadow-sm" id="btn-filter-All" data-i18n="filter_all">All Products</button>
+                <button onclick="setProductFilter('Laptops')" class="filter-btn px-5 py-2.5 rounded-xl text-sm font-semibold border-2 border-slate-700 hover:border-cyan-500/50 bg-slate-900/40 text-gray-400 hover:text-white transition-all" id="btn-filter-Laptops" data-i18n="filter_laptops">Laptops</button>
+                <button onclick="setProductFilter('Desktops')" class="filter-btn px-5 py-2.5 rounded-xl text-sm font-semibold border-2 border-slate-700 hover:border-cyan-500/50 bg-slate-900/40 text-gray-400 hover:text-white transition-all" id="btn-filter-Desktops" data-i18n="filter_desktops">Desktops</button>
+                <button onclick="setProductFilter('Components')" class="filter-btn px-5 py-2.5 rounded-xl text-sm font-semibold border-2 border-slate-700 hover:border-cyan-500/50 bg-slate-900/40 text-gray-400 hover:text-white transition-all" id="btn-filter-Components" data-i18n="filter_components">Components</button>
+                <button onclick="setProductFilter('Accessories')" class="filter-btn px-5 py-2.5 rounded-xl text-sm font-semibold border-2 border-slate-700 hover:border-cyan-500/50 bg-slate-900/40 text-gray-400 hover:text-white transition-all" id="btn-filter-Accessories" data-i18n="filter_accessories">Accessories</button>
+                <button onclick="setProductFilter('Printers')" class="filter-btn px-5 py-2.5 rounded-xl text-sm font-semibold border-2 border-slate-700 hover:border-cyan-500/50 bg-slate-900/40 text-gray-400 hover:text-white transition-all" id="btn-filter-Printers" data-i18n="filter_printers">Printers</button>
+                <button onclick="setProductFilter('Networking')" class="filter-btn px-5 py-2.5 rounded-xl text-sm font-semibold border-2 border-slate-700 hover:border-cyan-500/50 bg-slate-900/40 text-gray-400 hover:text-white transition-all" id="btn-filter-Networking" data-i18n="filter_networking">Networking</button>
+            </div>
+
+            <!-- Products Grid (Dynamically filtered and loaded via JS) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="product-grid">
+                <!-- Cards Injected Dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Explorer Section -->
+    <section id="category-slider" class="py-20 relative dyn-bg border-b border-slate-700 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-end mb-8 reveal">
+                <div>
+                    <h2 class="text-cyan-400 font-semibold uppercase text-sm mb-1" data-i18n="explore_tag">Discover More</h2>
+                    <h3 class="text-3xl font-bold dyn-text" data-i18n="explore_title">Browse by Category</h3>
+                </div>
+                <div class="hidden sm:flex gap-2">
+                    <button onclick="scrollSlider(-300)" class="w-10 h-10 rounded-full dyn-card border border-slate-600 flex items-center justify-center dyn-text hover:text-cyan-400"><i class="fas fa-chevron-left"></i></button>
+                    <button onclick="scrollSlider(300)" class="w-10 h-10 rounded-full dyn-card border border-slate-600 flex items-center justify-center dyn-text hover:text-cyan-400"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Horizontal Slider -->
+            <div class="horizontal-slider reveal" id="cat-slider-container">
+                <!-- Items populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 relative bg-slate-800 border-b border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h3 class="text-4xl md:text-5xl font-bold mb-4 dyn-text"><span class="text-gradient" data-i18n="srv_title">Our Services</span></h3>
+                <p class="dyn-text-muted text-lg" data-i18n="srv_sub">Professional tech services you can count on</p>
+                <div class="w-20 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="services-grid">
+               <!-- Services injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Reviews -->
+    <section id="reviews" class="py-24 relative dyn-bg border-b border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 reveal">
+                <h3 class="text-4xl md:text-5xl font-bold mb-4 dyn-text"><span class="text-gradient" data-i18n="rev_title">Customer Reviews</span></h3>
+                <div class="w-20 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="reveal card-hover dyn-card p-8 rounded-2xl relative">
+                    <i class="fas fa-quote-left text-4xl text-slate-600 absolute top-6 right-6 opacity-30"></i>
+                    <div class="flex gap-1 mb-4 text-yellow-400 text-sm"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="dyn-text-muted italic mb-6 text-sm">"Got my gaming PC built from Yash Computer. Flawless cable management and best price in Bhilai. Highly recommended!"</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-cyan-600 rounded-full flex items-center justify-center text-white font-bold">R</div>
+                        <div><h5 class="dyn-text font-bold text-sm">Rahul S.</h5><p class="text-cyan-400 text-xs">Gamer</p></div>
+                    </div>
+                </div>
+                <div class="reveal card-hover dyn-card p-8 rounded-2xl relative" style="transition-delay: 100ms;">
+                    <i class="fas fa-quote-left text-4xl text-slate-600 absolute top-6 right-6 opacity-30"></i>
+                    <div class="flex gap-1 mb-4 text-yellow-400 text-sm"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                    <p class="dyn-text-muted italic mb-6 text-sm">"Laptop motherboard was dead. Service center asked for a huge amount. They repaired it at chip-level for a fraction of the cost."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">P</div>
+                        <div><h5 class="dyn-text font-bold text-sm">Priya Patel</h5><p class="text-cyan-400 text-xs">Engineer</p></div>
+                    </div>
+                </div>
+                <div class="reveal card-hover dyn-card p-8 rounded-2xl relative" style="transition-delay: 200ms;">
+                    <i class="fas fa-quote-left text-4xl text-slate-600 absolute top-6 right-6 opacity-30"></i>
+                    <div class="flex gap-1 mb-4 text-yellow-400 text-sm"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="dyn-text-muted italic mb-6 text-sm">"Best IT shop for office purchases. Prompt after-sales service. Genuine products and great behavior by the staff."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">A</div>
+                        <div><h5 class="dyn-text font-bold text-sm">Amit Verma</h5><p class="text-cyan-400 text-xs">Business Owner</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Order Section -->
+    <section id="contact" class="py-24 relative bg-slate-800 border-b border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-r from-cyan-900/40 to-blue-900/40 rounded-3xl p-8 md:p-12 dyn-border border shadow-2xl relative reveal">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4 dyn-text" data-i18n="contact_title">Visit Us or <span class="text-cyan-400">Call Us</span></h2>
+                        <p class="dyn-text-muted mb-8" data-i18n="contact_sub">We're here to help you find the perfect computer solution.</p>
+                        
+                        <div class="space-y-6 mt-10">
+                            <div class="flex items-center gap-5">
+                                <div class="w-12 h-12 rounded-full dyn-card flex items-center justify-center shadow-lg"><i class="fas fa-map-marker-alt text-xl text-cyan-500"></i></div>
+                                <div><h4 class="font-bold dyn-text">Address</h4><p class="dyn-text-muted text-sm">Durg, Bhilai (C.G.)</p></div>
+                            </div>
+                            <div class="flex items-center gap-5">
+                                <div class="w-12 h-12 rounded-full dyn-card flex items-center justify-center shadow-lg"><i class="fas fa-phone-alt text-xl text-cyan-500"></i></div>
+                                <div><h4 class="font-bold dyn-text">Phone</h4><p class="dyn-text-muted text-sm">+91 90653 40148</p></div>
+                            </div>
+                            <div class="flex items-center gap-5">
+                                <div class="w-12 h-12 rounded-full dyn-card flex items-center justify-center shadow-lg"><i class="fas fa-envelope text-xl text-cyan-500"></i></div>
+                                <div><h4 class="font-bold dyn-text">Email</h4><p class="dyn-text-muted text-sm">info@yashcomputer.com</p></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form -->
+                    <div class="dyn-card p-8 rounded-2xl border shadow-xl">
+                        <h3 class="text-2xl font-bold mb-2 dyn-text" data-i18n="form_title">Place Your Order</h3>
+                        <p class="text-sm dyn-text-muted mb-6" data-i18n="form_sub">Fill the form and we'll reply within 24 hours</p>
+                        
+                        <form onsubmit="handleFormSubmit(event)" id="mainContactForm">
+                            <div class="mb-4">
+                                <input type="text" class="w-full bg-transparent border dyn-border rounded-lg px-4 py-3 dyn-text focus:border-cyan-500 outline-none" placeholder="Your Name *" required>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                                <input type="tel" class="w-full bg-transparent border dyn-border rounded-lg px-4 py-3 dyn-text focus:border-cyan-500 outline-none" placeholder="Phone Number *" required>
+                                <input type="email" class="w-full bg-transparent border dyn-border rounded-lg px-4 py-3 dyn-text focus:border-cyan-500 outline-none" placeholder="Email Address">
+                            </div>
+                            <div class="mb-4">
+                                <select class="w-full bg-transparent border dyn-border rounded-lg px-4 py-3 dyn-text focus:border-cyan-500 outline-none appearance-none" required>
+                                    <option value="" disabled selected>Select Service / Product</option>
+                                    <option value="Purchase">New Purchase</option>
+                                    <option value="Repair">Repair Service</option>
+                                    <option value="Custom Build">Custom PC Build</option>
+                                    <option value="Other">Other Enquiry</option>
+                                </select>
+                            </div>
+                            <div class="mb-6">
+                                <textarea rows="3" class="w-full bg-transparent border dyn-border rounded-lg px-4 py-3 dyn-text focus:border-cyan-500 outline-none" placeholder="Message / Requirements"></textarea>
+                            </div>
+                            <button type="submit" class="w-full btn-glow bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-3 rounded-lg shadow-lg text-lg" data-i18n="btn_send">
+                                Send Request <i class="fas fa-paper-plane ml-2"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section id="social" class="py-16 dyn-bg border-b border-slate-700 text-center">
+        <div class="max-w-4xl mx-auto px-4 reveal">
+            <h3 class="text-2xl font-bold dyn-text mb-2">Connect With <span class="text-cyan-400">Yash Computer</span></h3>
+            <p class="dyn-text-muted mb-8">Follow us on social media for the latest tech updates and exclusive offers!</p>
+            
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="#" class="group w-20 h-20 rounded-2xl dyn-card border border-[#1877F2]/30 flex flex-col items-center justify-center hover:border-[#1877F2] hover:bg-[#1877F2]/10 transition-all shadow-[0_0_15px_rgba(24,119,242,0.15)]">
+                    <i class="fab fa-facebook-f text-3xl text-[#1877F2] mb-1 group-hover:scale-110 transition-transform"></i><span class="text-[10px] dyn-text-muted">Facebook</span>
+                </a>
+                <a href="#" class="group w-20 h-20 rounded-2xl dyn-card border border-[#E4405F]/30 flex flex-col items-center justify-center hover:border-[#E4405F] hover:bg-[#E4405F]/10 transition-all shadow-[0_0_15px_rgba(228,64,95,0.15)]">
+                    <i class="fab fa-instagram text-3xl text-[#E4405F] mb-1 group-hover:scale-110 transition-transform"></i><span class="text-[10px] dyn-text-muted">Instagram</span>
+                </a>
+                <a href="#" class="group w-20 h-20 rounded-2xl dyn-card border border-[#FF0000]/30 flex flex-col items-center justify-center hover:border-[#FF0000] hover:bg-[#FF0000]/10 transition-all shadow-[0_0_15px_rgba(255,0,0,0.15)]">
+                    <i class="fab fa-youtube text-3xl text-[#FF0000] mb-1 group-hover:scale-110 transition-transform"></i><span class="text-[10px] dyn-text-muted">YouTube</span>
+                </a>
+                <a href="#" class="group w-20 h-20 rounded-2xl dyn-card border border-[#25D366]/30 flex flex-col items-center justify-center hover:border-[#25D366] hover:bg-[#25D366]/10 transition-all shadow-[0_0_15px_rgba(37,211,102,0.15)]">
+                    <i class="fab fa-whatsapp text-3xl text-[#25D366] mb-1 group-hover:scale-110 transition-transform"></i><span class="text-[10px] dyn-text-muted">WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 pt-16 pb-8" style="background-color: #020617;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white font-bold">YC</div>
+                        <span class="font-bold text-xl text-white">Yash <span class="text-cyan-400">Computer</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6 max-w-sm">Your trusted computer shop for all tech needs. Quality products, expert service, unbeatable prices.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#home" class="hover:text-cyan-400">Home</a></li>
+                        <li><a href="#products" class="hover:text-cyan-400">Products</a></li>
+                        <li><a href="#services" class="hover:text-cyan-400">Services</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Contact Info</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>+91 90653 40148</li>
+                        <li>info@yashcomputer.com</li>
+                        <li>Durg, Bhilai (C.G.)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 text-center text-sm text-gray-500">
+                <p>&copy; 2026 Yash Computer. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    
+    <!-- Floating Favorites Button - Shrunk icon inside -->
+    <div class="fab-fav" onclick="openFavoritesModal()" title="View Favorites">
+        <i class="fas fa-heart text-base"></i>
+        <div class="fab-badge" id="fav-count-badge">0</div>
+    </div>
+
+    <!-- Generic Details Modal -->
+    <div id="detailsModal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div class="modal-content relative w-full max-w-lg mx-4 rounded-2xl border shadow-2xl overflow-hidden dyn-card dyn-border flex flex-col max-h-[90vh]" style="background-color: var(--modal-bg);">
+            <div class="flex justify-between items-center p-5 border-b dyn-border">
+                <h3 id="modalTitle" class="text-xl font-bold dyn-text">Title Here</h3>
+                <button onclick="closeModal('detailsModal')" class="dyn-text-muted hover:text-red-500 focus:outline-none"><i class="fas fa-times text-2xl"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <div id="modalIconBox" class="w-16 h-16 rounded-2xl bg-cyan-500/10 flex items-center justify-center text-cyan-500 mb-4 text-3xl"></div>
+                <div id="modalDesc" class="dyn-text-muted text-sm leading-relaxed mb-6">Description goes here.</div>
+                <div class="bg-cyan-500/10 rounded-xl p-4 flex justify-between items-center border border-cyan-500/30">
+                    <span class="dyn-text-muted text-sm">Offer Price:</span>
+                    <span id="modalPrice" class="text-2xl font-extrabold text-cyan-400">₹00</span>
+                </div>
+            </div>
+            <div class="p-5 border-t dyn-border flex justify-end gap-3 bg-slate-900/30">
+                <a href="#contact" onclick="closeModal('detailsModal')" class="px-6 py-2 rounded-lg text-sm font-bold bg-gradient-to-r from-cyan-500 to-blue-600 hover:scale-105 transition-all text-white shadow-lg flex items-center gap-2"><i class="fas fa-shopping-cart"></i> Order Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Favorites Modal -->
+    <div id="favModal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div class="modal-content relative w-full max-w-2xl mx-4 rounded-2xl border shadow-2xl overflow-hidden dyn-card dyn-border flex flex-col max-h-[80vh]" style="background-color: var(--modal-bg);">
+            <div class="flex justify-between items-center p-5 border-b dyn-border">
+                <h3 class="text-xl font-bold dyn-text flex items-center gap-2"><i class="fas fa-heart text-red-500"></i> My Wishlist</h3>
+                <button onclick="closeModal('favModal')" class="dyn-text-muted hover:text-red-500 focus:outline-none"><i class="fas fa-times text-2xl"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto" id="fav-list-container">
+                <!-- Wishlist Injected Here -->
+                <p class="text-center dyn-text-muted py-8">Your wishlist is empty.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations Modal -->
+    <div id="recModal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm">
+        <div class="modal-content relative w-full max-w-5xl mx-4 rounded-2xl border shadow-2xl overflow-hidden dyn-card dyn-border flex flex-col h-[90vh]" style="background-color: var(--modal-bg);">
+            <div class="flex justify-between items-center p-5 border-b dyn-border">
+                <h3 class="text-xl font-bold dyn-text">Selected Product & Recommendations</h3>
+                <button onclick="closeModal('recModal')" class="dyn-text-muted hover:text-red-500 focus:outline-none"><i class="fas fa-times text-2xl"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-grow">
+                <!-- Selected Item Header -->
+                <div class="dyn-bg p-6 rounded-xl border dyn-border mb-8 flex flex-col md:flex-row gap-6 items-center">
+                    <div class="w-24 h-24 rounded-full bg-cyan-500/10 flex justify-center items-center text-4xl text-cyan-500 flex-shrink-0" id="recMainIcon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-cyan-500 font-bold uppercase tracking-wider block mb-1" id="recMainCat">Category</span>
+                        <h2 class="text-2xl font-bold dyn-text mb-2" id="recMainTitle">Product Title</h2>
+                        <p class="dyn-text-muted text-sm mb-3" id="recMainDesc">Details go here.</p>
+                        <h4 class="text-xl font-bold text-cyan-500" id="recMainPrice">₹00</h4>
+                    </div>
+                </div>
+
+                <!-- Recommendations Grid -->
+                <h3 class="text-lg font-bold dyn-text mb-4 border-b dyn-border pb-2">Similar Recommendations</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="recGrid">
+                    <!-- Dynamic recommendations injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <script>
+        /* --- 1. DATA DEFINITIONS (16 Products + 16 Services) --- */
+        const productsData = [
+            { id: 'p1', cat: 'Laptops', title: 'Premium Gaming Laptop', desc: 'Intel i7, 16GB RAM, RTX 3060, 512GB SSD', price: '₹65,000', icon: 'fa-laptop', color: 'cyan', tag: 'Popular' },
+            { id: 'p2', cat: 'Laptops', title: 'Office Work Laptop', desc: 'Intel i5, 8GB RAM, 256GB SSD, Windows 11', price: '₹35,000', icon: 'fa-laptop-code', color: 'blue', tag: 'Best Value' },
+            { id: 'p3', cat: 'Desktops', title: 'Powerhouse Gaming Desktop', desc: 'Intel i9, 32GB RAM, RTX 4070, 1TB NVMe', price: '₹80,000', icon: 'fa-desktop', color: 'purple', tag: 'New' },
+            { id: 'p4', cat: 'Desktops', title: 'Business Tower Desktop', desc: 'Intel i3, 8GB RAM, 500GB HDD, Windows 11', price: '₹28,000', icon: 'fa-server', color: 'cyan' },
+            { id: 'p5', cat: 'Accessories', title: 'Tactile Mechanical Keyboard', desc: 'RGB Backlit, Cherry MX Switches, USB-C', price: '₹3,500', icon: 'fa-keyboard', color: 'pink' },
+            { id: 'p6', cat: 'Accessories', title: 'Ergonomic Gaming Mouse', desc: '12000 DPI, RGB, Precision Tracking', price: '₹1,800', icon: 'fa-mouse', color: 'green' },
+            { id: 'p7', cat: 'Components', title: 'NVIDIA RTX 4060 GPU', desc: '8GB GDDR6, Ray Tracing, DLSS 3.0 Support', price: '₹32,000', icon: 'fa-microchip', color: 'orange', tag: 'Hot' },
+            { id: 'p8', cat: 'Accessories', title: '27" UHD 4K Monitor', desc: '4K UHD, 144Hz, IPS Panel, HDR400 Display', price: '₹22,000', icon: 'fa-tv', color: 'indigo' },
+            { id: 'p9', cat: 'Components', title: 'Corsair 16GB DDR5 RAM', desc: 'DDR5 5600MHz, Dual Channel Performance Kit', price: '₹5,500', icon: 'fa-memory', color: 'cyan' },
+            { id: 'p10', cat: 'Components', title: 'Crucial 1TB NVMe SSD', desc: 'Gen4 M.2, Extreme 7300MB/s Read Velocity', price: '₹8,500', icon: 'fa-hdd', color: 'blue' },
+            { id: 'p11', cat: 'Printers', title: 'HP Wireless Laser Printer', desc: 'Multifunctional: Print, Scan, Copy & Wi-Fi', price: '₹14,500', icon: 'fa-print', color: 'yellow' },
+            { id: 'p12', cat: 'Accessories', title: 'HD 1080p Streamer Webcam', desc: 'Auto-focus, Integrated Microphone, Cover Shield', price: '₹2,200', icon: 'fa-video', color: 'red' },
+            { id: 'p13', cat: 'Networking', title: 'Gigabit Wi-Fi 6 Router', desc: 'Dual Band, 4 High-Gain Antennas, Wide Range', price: '₹3,800', icon: 'fa-wifi', color: 'teal' },
+            { id: 'p14', cat: 'Accessories', title: 'Microtek 600VA UPS', desc: 'Reliable Battery Backup & Surge Protector', price: '₹2,500', icon: 'fa-battery-full', color: 'green' },
+            { id: 'p15', cat: 'Accessories', title: 'Surround Sound Gaming Headset', desc: '7.1 Virtual Audio, Noise Cancelling Mic', price: '₹2,900', icon: 'fa-headphones', color: 'pink' },
+            { id: 'p16', cat: 'Components', title: 'Ant Esports RGB Cabinet', desc: 'Premium Tempered Glass, 4x ARGB Chassis Fans', price: '₹4,200', icon: 'fa-box', color: 'blue' }
+        ];
+
+        const servicesData = [
+            { id:'s1', title: 'Computer Repair', desc: 'Fast & reliable hardware repair for laptops and desktops.', icon: 'fa-tools', color: 'cyan', price: 'Starts ₹300' },
+            { id:'s2', title: 'Virus Removal', desc: 'Complete malware & spyware cleanup with protection.', icon: 'fa-shield-virus', color: 'purple', price: 'Starts ₹400' },
+            { id:'s3', title: 'Custom PC Build', desc: 'Dream PC assembly with perfect cable management.', icon: 'fa-cogs', color: 'blue', price: 'Assembly ₹800' },
+            { id:'s4', title: 'Data Recovery', desc: 'Recover deleted data from dead HDDs, SSDs, USBs.', icon: 'fa-hdd', color: 'green', price: 'Varies' },
+            { id:'s5', title: 'Network Setup', desc: 'Router, LAN config and troubleshooting for offices.', icon: 'fa-network-wired', color: 'orange', price: 'Varies' },
+            { id:'s6', title: 'OS Installation', desc: 'Windows/Linux install with drivers & basic software.', icon: 'fab fa-windows', color: 'red', price: '₹300' },
+            { id:'s7', title: 'Screen Replace', desc: 'Original LED/LCD replacement for broken laptops.', icon: 'fa-desktop', color: 'teal', price: 'Varies' },
+            { id:'s8', title: 'Chip-Level Repair', desc: 'Advanced BGA logic board repairing for dead PCs.', icon: 'fa-microchip', color: 'yellow', price: 'Starts ₹1500' },
+            { id:'s9', title: 'Keyboard Repair', desc: 'Replacement of internal laptop keyboards.', icon: 'fa-keyboard', color: 'pink', price: 'Starts ₹800' },
+            { id:'s10', title: 'Battery Swap', desc: 'Original & OEM battery replacement with warranty.', icon: 'fa-battery-half', color: 'lime', price: 'Varies' },
+            { id:'s11', title: 'Apple Mac Repair', desc: 'Specialized fixing for MacBooks and iMac logic boards.', icon: 'fab fa-apple', color: 'gray', price: 'Varies' },
+            { id:'s12', title: 'Printer Refill', desc: 'Ink/Toner refilling and paper jam repairing.', icon: 'fa-print', color: 'indigo', price: 'Starts ₹250' },
+            { id:'s13', title: 'CCTV Install', desc: 'HD/IP camera setup with mobile remote viewing.', icon: 'fa-video', color: 'red', price: 'Visit Based' },
+            { id:'s14', title: 'Remote Support', desc: 'Online software troubleshooting via AnyDesk.', icon: 'fa-headset', color: 'cyan', price: 'Starts ₹200' },
+            { id:'s15', title: 'Data Cloning', desc: 'Safe migration from slow HDD to fast NVMe SSD.', icon: 'fa-sync', color: 'blue', price: '₹300' },
+            { id:'s16', title: 'Office AMC', desc: 'Annual maintenance contracts for business IT health.', icon: 'fa-handshake', color: 'yellow', price: 'Custom' }
+        ];
+
+        /* Current dynamic active filter for products */
+        let activeCategoryFilter = 'All';
+
+        /* --- 2. THEME ENGINE --- */
+        let isLightMode = localStorage.getItem('yash_theme') === 'light';
+        const body = document.body;
+        const themeIcon = document.getElementById('theme-icon');
+        const themeIconMob = document.getElementById('theme-icon-mob');
+
+        function applyTheme() {
+            if (isLightMode) {
+                body.classList.add('light-mode');
+                themeIcon.className = 'fas fa-moon text-lg text-slate-800';
+                themeIconMob.className = 'fas fa-moon text-slate-800';
+            } else {
+                body.classList.remove('light-mode');
+                themeIcon.className = 'fas fa-sun text-lg text-cyan-400';
+                themeIconMob.className = 'fas fa-sun text-cyan-400';
+            }
+        }
+        
+        function toggleTheme() {
+            isLightMode = !isLightMode;
+            localStorage.setItem('yash_theme', isLightMode ? 'light' : 'dark');
+            applyTheme();
+            showToast(isLightMode ? "Light Mode Enabled" : "Dark Mode Enabled");
+        }
+        applyTheme();
+
+        /* --- 3. BILINGUAL DICTIONARY (EN/HI) --- */
+        const translations = {
+            en: {
+                nav_home: "Home", nav_about: "About", nav_products: "Products", nav_explore: "Explore", nav_services: "Services", nav_contact: "Contact Us",
+                hero_badge: "Chhattisgarh's Most Trusted Computer Hub Since 2010", hero_title: 'Your Ultimate <br> <span class="text-gradient">Tech & Repair Hub</span>',
+                hero_desc: "Professional IT solutions, high-grade laptops, custom rigs, and trusted hardware repairs. Serving Durg-Bhilai with excellence and transparent prices.",
+                btn_shop: "Shop Products", btn_contact: "Contact Us", stat_customers: "Happy Customers", stat_exp: "Years Experience", stat_prod: "Products Repaired",
+                about_tag: "Our Premium Story", about_title: 'About <span class="text-gradient">Yash Computer</span>', loc_title: "Located in Durg, Bhilai", loc_desc: "Serving CG since 2010",
+                hours_title: "Business Hours", days_week: "Mon - Sat:", day_sunday: "Sunday:", sunday_status: "Closed (Support Available)",
+                about_p1: "Established in <strong>2010</strong>, Yash Computer has grown from a local diagnostics repair desk to Chhattisgarh’s premier tech supply and hardware maintenance ecosystem. Over 15 years, we have raised the standards of technology distribution.",
+                about_p2: "Our motto is: <strong>'Genuine Spares, Expert Diagnostics, Fair Pricing.'</strong> We deal with all top brands, offering laptop repair, chip-level logic board recovery, custom workstation construction, and enterprise network setups.",
+                pillar_1_t: "Genuine Spares Only", pillar_1_d: "100% manufacturer warranty verification.",
+                pillar_2_t: "Certified Specialists", pillar_2_d: "Experienced chip-level motherboard experts.",
+                prod_title: "Our Products", prod_sub: "Top quality computers & accessories with comprehensive filters",
+                filter_all: "All Products", filter_laptops: "Laptops", filter_desktops: "Desktops", filter_components: "Components", filter_accessories: "Accessories", filter_printers: "Printers", filter_networking: "Networking",
+                explore_tag: "Discover More", explore_title: "Browse by Category",
+                srv_title: "Our Services", srv_sub: "Professional tech services you can count on",
+                rev_title: "Customer Reviews", contact_title: 'Visit Us or <span class="text-cyan-400">Call Us</span>', contact_sub: "We're here to help you find the perfect computer solution.",
+                form_title: "Place Your Order", form_sub: "Fill the form and we'll reply within 24 hours", btn_send: "Send Request"
+            },
+            hi: {
+                nav_home: "मुख्य पृष्ठ", nav_about: "हमारे बारे में", nav_products: "उत्पाद", nav_explore: "खोजें", nav_services: "सेवाएं", nav_contact: "संपर्क करें",
+                hero_badge: "2010 से छत्तीसगढ़ का सबसे भरोसेमंद कंप्यूटर हब", hero_title: 'आपकी कंप्यूटर की <br> <span class="text-gradient">सर्वश्रेष्ठ तकनीकी हब</span>',
+                hero_desc: "पेशेवर आईटी समाधान, हाई-ग्रेड लैपटॉप, कस्टम रिग्स और विश्वसनीय हार्डवेयर मरम्मत। दुर्ग-भिलाई में बेहतरीन सेवा और पारदर्शी कीमतों के साथ।",
+                btn_shop: "सामान देखें", btn_contact: "संपर्क करें", stat_customers: "संतुष्ट ग्राहक", stat_exp: "वर्षों का अनुभव", stat_prod: "मरम्मत किए गए उत्पाद",
+                about_tag: "हमारी प्रीमियम कहानी", about_title: 'यश कंप्यूटर <span class="text-gradient">के बारे में</span>', loc_title: "दुर्ग, भिलाई में स्थित", loc_desc: "2010 से छत्तीसगढ़ में कार्यरत",
+                hours_title: "दुकान खुलने का समय", days_week: "सोम - शनि:", day_sunday: "रविवार:", sunday_status: "बंद (आपातकालीन सेवा उपलब्ध)",
+                about_p1: "<strong>2010</strong> में स्थापित, यश कंप्यूटर एक स्थानीय मरम्मत डेस्क से बढ़कर छत्तीसगढ़ के प्रमुख आईटी आपूर्ति और हार्डवेयर रखरखाव तंत्र में बदल गया है। 15 वर्षों से अधिक समय से हम उत्तम सेवाएं प्रदान कर रहे हैं।",
+                about_p2: "हमारा दर्शन सरल है: <strong>'असली स्पेयर पार्ट्स, कुशल डायग्नोस्टिक्स, सही मूल्य।'</strong> हम सभी प्रमुख ब्रांडों के लैपटॉप सुधार, चिप-लेवल मदरबोर्ड रिपेयर और वर्कस्टेशन निर्माण की सुविधा प्रदान करते हैं।",
+                pillar_1_t: "केवल असली पार्ट्स", pillar_1_d: "100% निर्माता वारंटी सत्यापन के साथ।",
+                pillar_2_t: "प्रमाणित विशेषज्ञ", pillar_2_d: "अनुभवी चिप-स्तरीय मदरबोर्ड विशेषज्ञ।",
+                prod_title: "हमारे उत्पाद", prod_sub: "व्यापक फिल्टर के साथ सर्वोत्तम गुणवत्ता वाले कंप्यूटर और एक्सेसरीज",
+                filter_all: "सभी उत्पाद", filter_laptops: "लैपटॉप", filter_desktops: "डेस्कटॉप", filter_components: "कंपोनेंट्स", filter_accessories: "एक्सेसरीज", filter_printers: "प्रिंटर", filter_networking: "नेटवर्किंग",
+                explore_tag: "और खोजें", explore_title: "श्रेणी के अनुसार खोजें",
+                srv_title: "हमारी सेवाएं", srv_sub: "पेशेवर तकनीकी सेवाएं जिन पर आप भरोसा कर सकते हैं",
+                rev_title: "ग्राहक समीक्षा", contact_title: 'हमसे मिलें या <span class="text-cyan-400">कॉल करें</span>', contact_sub: "हम आपकी कंप्यूटर समस्याओं को हल करने में मदद के लिए यहाँ हैं।",
+                form_title: "अपना ऑर्डर दर्ज करें", form_sub: "कृपया फॉर्म भरें और हम जल्द ही आपसे संपर्क करेंगे", btn_send: "अनुरोध भेजें"
+            }
+        };
+
+        let currentLang = localStorage.getItem('yash_lang') || 'en';
+        
+        function applyLanguage() {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'hi' : 'en';
+            localStorage.setItem('yash_lang', currentLang);
+            applyLanguage();
+            showToast(currentLang === 'en' ? "Language: English" : "भाषा: हिंदी");
+        }
+        applyLanguage();
+
+        /* --- 4. WISHLIST MANAGEMENT --- */
+        let favorites = JSON.parse(localStorage.getItem('yash_favs')) || [];
+        
+        function toggleFav(id, event) {
+            event.stopPropagation();
+            const index = favorites.indexOf(id);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                showToast("Removed from wishlist");
+            } else {
+                favorites.push(id);
+                showToast("Added to wishlist ❤️");
+            }
+            localStorage.setItem('yash_favs', JSON.stringify(favorites));
+            updateFavUI();
+            renderProducts();
+        }
+
+        function updateFavUI() {
+            document.getElementById('fav-count-badge').innerText = favorites.length;
+        }
+        updateFavUI();
+
+        /* --- 5. INTERACTIVE PRODUCT FILTER LOGIC --- */
+        function setProductFilter(category) {
+            activeCategoryFilter = category;
+            
+            // Manage UI Active Filter Button states
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active-filter', 'bg-cyan-500', 'text-white', 'border-cyan-500');
+                btn.classList.add('text-gray-400', 'border-slate-700', 'bg-slate-900/40');
+            });
+
+            const activeBtn = document.getElementById(`btn-filter-${category}`);
+            if(activeBtn) {
+                activeBtn.classList.add('active-filter', 'bg-cyan-500', 'text-white', 'border-cyan-500');
+                activeBtn.classList.remove('text-gray-400', 'border-slate-700', 'bg-slate-900/40');
+            }
+
+            renderProducts();
+            showToast(`Showing: ${category}`);
+        }
+
+        /* --- 6. RENDER DYNAMIC PRODUCTS GRID --- */
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+            
+            // Filter list based on active category
+            const filteredProducts = activeCategoryFilter === 'All' 
+                ? productsData 
+                : productsData.filter(p => p.cat === activeCategoryFilter);
+
+            if(filteredProducts.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i class="fas fa-search text-5xl text-gray-500 mb-4"></i>
+                        <p class="dyn-text-muted text-lg">No products found in this category.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredProducts.forEach(p => {
+                const isFav = favorites.includes(p.id);
+                const tagHtml = p.tag ? `<span class="absolute top-3 right-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg z-10">${p.tag}</span>` : '';
+                
+                grid.innerHTML += `
+                    <div class="reveal card-hover rounded-2xl overflow-hidden group dyn-card relative cursor-pointer flex flex-col h-full" onclick="openDetailsModal('${p.id}', 'prod')">
+                        <div class="h-40 bg-slate-900/50 p-4 flex justify-center items-center relative overflow-hidden dyn-border border-b flex-shrink-0">
+                            <i class="fas ${p.icon} text-5xl text-gray-500 group-hover:text-${p.color}-400 group-hover:scale-110 transition-all duration-500"></i>
+                            ${tagHtml}
+                            <button class="absolute top-3 left-3 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center heart-btn ${isFav ? 'heart-active' : 'text-gray-400'} hover:text-red-500 z-10" onclick="toggleFav('${p.id}', event)">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="p-5 flex flex-col flex-grow bg-slate-800/20">
+                            <span class="text-[10px] text-${p.color}-500 font-bold uppercase tracking-wider mb-1 block">${p.cat}</span>
+                            <h4 class="text-lg font-bold mb-2 dyn-text group-hover:text-cyan-500 transition-colors line-clamp-1">${p.title}</h4>
+                            <p class="text-xs dyn-text-muted mb-4 flex-grow line-clamp-2">${p.desc}</p>
+                            <div class="flex justify-between items-center pt-4 border-t border-slate-700/50 mt-auto">
+                                <div class="flex flex-col">
+                                    <span class="text-[10px] text-gray-400 uppercase font-semibold">Price</span>
+                                    <span class="text-xl font-extrabold text-cyan-400">${p.price}</span>
+                                </div>
+                                <span class="text-xs px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-md hover:shadow-cyan-500/30 transition-all">Buy Now</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            setTimeout(reveal, 100);
+        }
+
+        /* --- 7. SERVICES LOADER --- */
+        function renderServices() {
+            const grid = document.getElementById('services-grid');
+            grid.innerHTML = '';
+            servicesData.forEach(s => {
+                grid.innerHTML += `
+                    <div class="reveal card-hover p-6 rounded-2xl dyn-card cursor-pointer" onclick="openDetailsModal('${s.id}', 'serv')">
+                        <div class="w-12 h-12 bg-${s.color}-500/10 rounded-xl flex items-center justify-center mb-4"><i class="fas ${s.icon} text-xl text-${s.color}-500"></i></div>
+                        <h4 class="font-bold mb-2 dyn-text">${s.title}</h4>
+                        <p class="dyn-text-muted text-xs mb-4 h-8">${s.desc}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-${s.color}-500 font-medium text-xs flex items-center gap-1">More Info <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        /* --- 8. SLIDERS & EXPLORER RECOMMENDATIONS --- */
+        const categories = [
+            { name: "Laptops", icon: "fa-laptop", desc: "Gaming, Office & Study rigs", color: "blue" },
+            { name: "Desktops", icon: "fa-desktop", desc: "Custom builds & servers", color: "purple" },
+            { name: "Components", icon: "fa-microchip", desc: "GPUs, CPUs, RAMs, SSDs", color: "orange" },
+            { name: "Accessories", icon: "fa-keyboard", desc: "Keyboards, high-grade mice", color: "pink" },
+            { name: "Networking", icon: "fa-wifi", desc: "High-speed routers & adapters", color: "teal" },
+            { name: "Printers", icon: "fa-print", desc: "Laser, scan, copy networks", color: "yellow" }
+        ];
+
+        function renderCategorySlider() {
+            const container = document.getElementById('cat-slider-container');
+            container.innerHTML = '';
+            categories.forEach(c => {
+                container.innerHTML += `
+                    <div class="slider-item dyn-card border p-6 rounded-2xl card-hover cursor-pointer" onclick="openCategoryRecs('${c.name}', '${c.icon}', '${c.color}')">
+                        <div class="w-16 h-16 bg-${c.color}-500/10 rounded-full flex justify-center items-center text-2xl text-${c.color}-500 mb-4">
+                            <i class="fas ${c.icon}"></i>
+                        </div>
+                        <h4 class="text-xl font-bold dyn-text mb-1">${c.name}</h4>
+                        <p class="text-sm dyn-text-muted">${c.desc}</p>
+                        <div class="mt-4 text-${c.color}-500 text-sm font-medium flex items-center gap-1">View Recommendations <i class="fas fa-arrow-right text-xs"></i></div>
+                    </div>
+                `;
+            });
+        }
+
+        function scrollSlider(amount) {
+            document.getElementById('cat-slider-container').scrollBy({ left: amount, behavior: 'smooth' });
+        }
+
+        function openCategoryRecs(catName, icon, color) {
+            document.getElementById('recMainCat').innerText = catName;
+            document.getElementById('recMainTitle').innerText = `Best of ${catName}`;
+            document.getElementById('recMainDesc').innerText = `You selected the ${catName} category. Here are our high-performance selections recommended for optimized productivity.`;
+            document.getElementById('recMainPrice').innerText = "Starting from ₹1,200";
+            
+            const iconBox = document.getElementById('recMainIcon');
+            iconBox.className = `w-24 h-24 rounded-full bg-${color}-500/10 flex justify-center items-center text-4xl text-${color}-500 flex-shrink-0`;
+            iconBox.innerHTML = `<i class="fas ${icon}"></i>`;
+
+            const recGrid = document.getElementById('recGrid');
+            recGrid.innerHTML = '';
+            
+            for(let i=1; i<=4; i++) {
+                const mockPrice = Math.floor(Math.random() * 40000) + 1500;
+                recGrid.innerHTML += `
+                    <div class="dyn-card border dyn-border p-4 rounded-xl flex flex-col hover:border-${color}-500 transition-colors cursor-pointer">
+                        <div class="h-24 bg-slate-900/30 rounded-lg flex items-center justify-center text-2xl text-gray-500 mb-3"><i class="fas ${icon}"></i></div>
+                        <h5 class="font-bold dyn-text text-sm mb-1">${catName} Variant Pro ${i}</h5>
+                        <p class="text-xs dyn-text-muted mb-2 flex-grow">Optimized engineering and verified warranty shield.</p>
+                        <div class="flex justify-between items-center mt-auto">
+                            <span class="font-bold text-${color}-500 text-sm">₹${mockPrice.toLocaleString()}</span>
+                            <span class="text-xs px-2 py-1 bg-${color}-500/20 text-${color}-500 rounded">Order Info</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('recModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        /* --- 9. MODALS & NOTIFICATIONS --- */
+        function openDetailsModal(id, type) {
+            let item;
+            if (type === 'prod') item = productsData.find(p => p.id === id);
+            else item = servicesData.find(s => s.id === id);
+
+            if(!item) return;
+
+            document.getElementById('modalTitle').innerText = item.title;
+            
+            let extraDetails = "";
+            if(type === 'prod') {
+                extraDetails = `
+                    <div class="mt-4 pt-4 border-t border-slate-700/50">
+                        <h5 class="text-cyan-400 font-bold mb-2 text-base">Specifications & Offers:</h5>
+                        <ul class="list-disc pl-5 space-y-2 text-sm dyn-text">
+                            <li><strong class="dyn-text-muted">Type:</strong> ${item.cat}</li>
+                            <li><strong class="dyn-text-muted">Warranty Period:</strong> 1 Year Premium Direct Brand Warranty</li>
+                            <li><strong class="dyn-text-muted">Stock Status:</strong> Ready Stock in Durg-Bhilai</li>
+                            <li><strong class="dyn-text-muted">Package includes:</strong> Setup, driver optimization, lifetime tech support</li>
+                        </ul>
+                    </div>
+                `;
+            } else {
+                 extraDetails = `
+                    <div class="mt-4 pt-4 border-t border-slate-700/50">
+                        <h5 class="text-cyan-400 font-bold mb-2 text-base">Service Protocols:</h5>
+                        <ul class="list-disc pl-5 space-y-2 text-sm dyn-text">
+                            <li><strong class="dyn-text-muted">Lead Time:</strong> Express Same-Day Fix Available</li>
+                            <li><strong class="dyn-text-muted">Warranty:</strong> 30 Days Service Guarantee</li>
+                            <li><strong class="dyn-text-muted">Diagnostics:</strong> Free preliminary checkup at shop</li>
+                        </ul>
+                    </div>
+                `;
+            }
+
+            document.getElementById('modalDesc').innerHTML = item.desc + extraDetails;
+            document.getElementById('modalPrice').innerText = item.price;
+            
+            const iconBox = document.getElementById('modalIconBox');
+            iconBox.className = `w-16 h-16 rounded-2xl bg-${item.color}-500/10 flex items-center justify-center text-${item.color}-500 mb-4 text-3xl`;
+            iconBox.innerHTML = `<i class="fas ${item.icon}"></i>`;
+
+            document.getElementById('detailsModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openFavoritesModal() {
+            const container = document.getElementById('fav-list-container');
+            container.innerHTML = '';
+            
+            const favItems = productsData.filter(p => favorites.includes(p.id));
+            
+            if (favItems.length === 0) {
+                container.innerHTML = `<div class="text-center py-10"><i class="fas fa-heart-broken text-4xl text-gray-400 mb-3"></i><p class="dyn-text-muted">Your wishlist is empty.</p></div>`;
+            } else {
+                favItems.forEach(p => {
+                    container.innerHTML += `
+                        <div class="flex items-center gap-4 p-4 border-b dyn-border hover:bg-slate-500/10 transition-colors">
+                            <div class="w-12 h-12 rounded bg-slate-900/50 flex items-center justify-center text-${p.color}-500"><i class="fas ${p.icon}"></i></div>
+                            <div class="flex-grow">
+                                <h5 class="font-bold dyn-text text-sm">${p.title}</h5>
+                                <p class="text-xs dyn-text-muted">${p.price}</p>
+                            </div>
+                            <button onclick="toggleFav('${p.id}', event); setTimeout(openFavoritesModal, 50)" class="w-8 h-8 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors"><i class="fas fa-trash"></i></button>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('favModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        window.addEventListener('click', (e) => {
+            if(e.target.classList.contains('modal-overlay')) {
+                closeModal(e.target.id);
+            }
+        });
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
+            container.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            document.getElementById('mainContactForm').reset();
+            showToast("Success! Your order request is queued. We'll connect in 2-4 working hours.");
+        }
+
+        /* --- 10. INITIATION & DEEP LINKING TRACKER --- */
+        window.addEventListener('load', () => {
+            renderProducts();
+            renderServices();
+            renderCategorySlider();
+            
+            // Default select "All Products" in visual state
+            setProductFilter('All');
+            
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    document.body.classList.remove('loading');
+                    reveal();
+                }, 1000);
+            }, 1500);
+        });
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('shadow-lg');
+                navbar.style.background = isLightMode ? 'rgba(255, 255, 255, 0.95)' : 'rgba(15, 23, 42, 0.95)';
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.style.background = isLightMode ? 'rgba(255, 255, 255, 0.85)' : 'rgba(15, 23, 42, 0.85)';
+            }
+        });
+
+        // Highlight Active Nav Card based on scroll section
+        const navLinks = document.querySelectorAll('.nav-box-item');
+        const sections = document.querySelectorAll('section');
+
+        function activeMenuTracking() {
+            let len = sections.length;
+            while(--len && window.scrollY + 150 < sections[len].offsetTop){}
+            navLinks.forEach(link => link.classList.remove('active-nav'));
+            if(navLinks[len]) {
+                navLinks[len].classList.add('active-nav');
+            }
+        }
+        window.addEventListener('scroll', activeMenuTracking);
+
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal, .reveal-left, .reveal-right");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 50) reveals[i].classList.add("active");
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => document.getElementById('mobile-menu').classList.add('hidden'));
+        });
+
+    </script>
+</body>
+</html>
